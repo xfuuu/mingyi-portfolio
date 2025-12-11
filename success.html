@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Payment Successful — Mingyi Zou</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html">Mingyi<br/>Zou</a>
+    <nav class="nav">
+      <a href="gallery.html#paintings">Paintings</a>
+      <a href="gallery.html#photography">Photography Works</a>
+      <a href="gallery.html#available">Available Works</a>
+      <a href="#" id="contactBtn">Contact</a>
+    </nav>
+  </header>
+
+  <main class="detail-page">
+    <div class="success-container">
+      <div class="success-icon">✅</div>
+      <h1>Payment Successful!</h1>
+      <p>Thank you for your purchase. Your artwork will be shipped within 3-5 business days.</p>
+      
+      <div class="success-details">
+        <h3>What happens next?</h3>
+        <ul>
+          <li>You'll receive a confirmation email with your order details</li>
+          <li>We'll prepare your artwork for shipping</li>
+          <li>You'll receive tracking information once shipped</li>
+          <li>Expected delivery: 5-7 business days</li>
+        </ul>
+      </div>
+
+      <div class="success-actions">
+        <a href="gallery.html" class="btn primary">Continue Shopping</a>
+        <a href="mailto:www@jeremyartcom.com" class="btn">Contact Us</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="social-links">
+      <a href="mailto:www@jeremyartcom.com" class="social-link" aria-label="Email">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+          <polyline points="22,6 12,13 2,6"></polyline>
+        </svg>
+      </a>
+      <a href="https://www.instagram.com/9934jeremy/" target="_blank" class="social-link" aria-label="Instagram">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+        </svg>
+      </a>
+    </div>
+    <small>© <span id="year"></span> Mingyi Zou</small>
+  </footer>
+
+  <script>
+    // Set current year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

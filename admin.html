@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin — Upload Artwork</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .admin-wrap{max-width:900px; margin:40px auto; padding:20px; background:#151515; border:1px solid #222; border-radius:12px}
+    .admin-wrap h1{margin:0 0 10px 0}
+    form .row{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+    form .row-3{display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px}
+    form .row-1{display:grid; grid-template-columns:1fr; gap:12px}
+    label{display:grid; gap:6px; font-size:.95rem}
+    input, select, textarea{
+      background:#121212; border:1px solid #333; color:#eee; border-radius:8px; padding:.6rem .7rem;
+    }
+    textarea{min-height:120px}
+    .actions{display:flex; gap:10px; margin-top:16px}
+    .muted{color:#a6a6a6}
+    .success{color:#5bd784}
+    .error{color:#ff6b6b}
+  </style>
+</head>
+<body>
+  <div class="admin-wrap">
+    <h1>Admin Upload</h1>
+    <p class="muted">Enter your admin token and artwork details, then upload an image.</p>
+
+    <div style="background: #1a1a1a; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333;">
+      <h3 style="margin: 0 0 10px 0; color: #ff6b6b;">⚠️ Security & Deployment Notice</h3>
+      <p style="margin: 0; color: #ccc; font-size: 14px;">
+        <strong>For Cloudflare Pages:</strong> Use the Pages Functions API instead of local server.<br>
+        <strong>API Endpoint:</strong> <code style="background: #333; padding: 2px 4px; border-radius: 3px;">POST /api/admin/upload</code><br>
+        <strong>Token Setup:</strong> Set <code>ADMIN_TOKEN</code> in Cloudflare Pages environment variables.
+      </p>
+    </div>
+    <form id="uploadForm" enctype="multipart/form-data" method="post">
+      <div class="row-3">
+        <label>Admin Token
+          <input type="password" name="token" placeholder="Enter admin token" required />
+        </label>
+        <label>Category
+          <select name="category" required>
+            <option value="artworks">Painting</option>
+            <option value="photography">Photography</option>
+          </select>
+        </label>
+        <label>Featured
+          <select name="featured">
+            <option value="false">No</option>
+            <option value="true">Yes</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="row">
+        <label>Title
+          <input type="text" name="title" placeholder="Title" required />
+        </label>
+        <label>Year
+          <input type="number" name="year" placeholder="2025" />
+        </label>
+      </div>
+      <div class="row">
+        <label>Date
+          <input type="text" name="date" placeholder="e.g. May 10, 2025" />
+        </label>
+        <label>Medium
+          <input type="text" name="medium" placeholder="Oil / Acrylic / Film Photography" />
+        </label>
+      </div>
+      <div class="row">
+        <label>Dimensions
+          <input type="text" name="dimensions" placeholder="e.g. 48 x 72 in or 120 film" />
+        </label>
+        <label>Price (USD)
+          <input type="number" name="price" placeholder="e.g. 3500" />
+        </label>
+      </div>
+      <div class="row">
+        <label>Available
+          <select name="available">
+            <option value="true">Available</option>
+            <option value="false">Sold/Unavailable</option>
+          </select>
+        </label>
+        <label>Image
+          <input type="file" name="image" accept="image/*" required />
+        </label>
+      </div>
+      <div class="row-1">
+        <label>Description
+          <textarea name="description" placeholder="Short description..."></textarea>
+        </label>
+      </div>
+      <div class="actions">
+        <button class="btn primary" type="submit">Upload</button>
+        <button class="btn" type="reset">Reset</button>
+      </div>
+      <div id="result" style="margin-top:12px"></div>
+    </form>
+  </div>
+
+  <script>
+    // Auto-detect environment
+    const isLocalDev = window.location.hostname === 'localhost' ||
+                       window.location.hostname === '127.0.0.1' ||
+                       window.location.hostname.includes('.pages.dev');
+    const apiEndpoint = isLocalDev ? '/admin/upload' : '/api/admin/upload';
+
+    const form = document.getElementById('uploadForm');
+    const result = document.getElementById('result');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      result.textContent = '';
+      const fd = new FormData(form);
+
+      try{
+        const resp = await fetch(apiEndpoint, {
+          method:'POST',
+          body: fd
+        });
+        const data = await resp.json();
+        if(!resp.ok || !data.ok){
+          result.innerHTML = '<div class="error">Upload failed: ' + (data.error || resp.statusText) + '</div>';
+        }else{
+          result.innerHTML = '<div class="success">Upload successful! ID: ' + data.item.id + '</div>';
+          form.reset();
+        }
+      }catch(err){
+        result.innerHTML = '<div class="error">Error: ' + err.message + '</div>';
+      }
+    });
+  </script>
+</body>
+</html>
+
+

@@ -1,0 +1,11 @@
+name = "mingyizou"
+compatibility_date = "2024-01-01"
+
+# Required by Pages
+pages_build_output_dir = "."
+
+# R2 Buckets for image storage
+[[r2_buckets]]
+binding = "ARTWORKS_BUCKET"
+bucket_name = "mingyi-artworks"
+preview_bucket_name = "mingyi-artworks-preview"
